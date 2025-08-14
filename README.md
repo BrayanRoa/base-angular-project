@@ -57,3 +57,44 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+## 📜 Conventional Commits
+
+This project follows the Conventional Commits specification for commit messages.
+This allows us to maintain a clear and consistent commit history.
+
+### Types of commits:
+
+- feat: New feature
+- fix: Bug fix
+- docs: Documentation only changes
+- style: Changes that do not affect the meaning of the code (formatting, missing semi-colons, etc.)
+- refactor: Code change that neither fixes a bug nor adds a feature
+- test: Adding or correcting tests
+- chore: Changes to the build process or auxiliary tools
+
+
+### Interactive commit
+
+If you have commitizen installed, you can run:
+
+```
+npm run commit
+```
+
+This will guide you through the process of writing a Conventional Commit message interactively.
+
+### Example
+
+```
+feat(user): add profile picture upload
+```
+
+```
+fix(api): correct type in authentication header
+```
+
+```
+docs(readme): update installation instructions
+```
