@@ -12,7 +12,7 @@ export abstract class BaseService<T> {
     protected http: HttpClient,
     public resourcePath: string
   ) {
-    this.fullUrl = `${environment.apiUrl}/${resourcePath}`;
+    this.fullUrl = `${environment.API_URL}/${resourcePath}`;
   }
 
   getAll() {
