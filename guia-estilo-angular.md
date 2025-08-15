@@ -80,6 +80,49 @@ export const API_BASE_URL = "https://api.example.com";
 
 ## 2️⃣ Nomenclatura Angular
 
+### Features y Rutas
+
+- Cada feature vive en una carpeta dentro de features/.
+- Cada feature tiene un archivo \*.routes.ts que define sus rutas hijas (este archivo lo creamos manualmente porque la CLI no tiene un comando para generar este archivo).
+- Los componentes son standalone (standalone: true).
+
+**Ejemplo de estructura**
+
+```
+features/
+ ├─ auth/
+ │   ├─ auth.routes.ts
+ │   └─ pages/
+ │       ├─ auth-login-page/
+ │       │   ├─ auth-login-page.ts
+ │       │   └─ auth-login-page.html
+ │       └─ auth-register-page/
+ │           ├─ auth-register-page.ts
+ │           └─ auth-register-page.html
+ |   └─ services/
+ |   └─ components/
+ |   └─ interfaces/
+```
+
+**Archivo de rutas de una feature (auth.routes.ts)**
+
+```ts
+import { Routes } from "@angular/router";
+
+export const authRoutes: Routes = [
+  {
+    path: "login",
+    loadComponent: () => import("./pages/auth-login-page/auth-login-page").then((m) => m.AuthLoginPage),
+  },
+  {
+    path: "register",
+    loadComponent: () => import("./pages/auth-register-page/auth-register-page").then((m) => m.AuthRegisterPage),
+  },
+];
+```
+
+---
+
 ### Componentes
 
 - Sufijo `Component`.
@@ -102,25 +145,6 @@ ng g c shared/components/table-component --standalone
 ```
 ng g c features/auth/pages/dashboard-page --standalone
 ```
----
-
-### Módulos
-
-- Sufijo `Module`.
-
-**Ejemplo:**
-
-```
-auth-module.ts
-dashboard-module.ts
-```
-
-**Comando CLI (Abreviado):**
-
-si el modulo necesita manejar rutas hijas agregamos la bandera `--routing`
-```
-ng g m features/auth --routing
-```
 
 ---
 
@@ -137,6 +161,7 @@ auth-service.ts
 ```
 
 **Comando CLI (Abreviado):**
+
 ```
 ng g s features/dashboard/services/product-service
 ```
