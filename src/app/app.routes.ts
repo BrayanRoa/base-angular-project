@@ -4,12 +4,12 @@ export const routes: Routes = [
     {
         path: 'auth',
         loadChildren: () =>
-            import('./features/auth/auth-module').then(m => m.AuthModule)
+            import('./features/auth/auth.routes').then(m => m.authRoutes)
     },
     {
         path: 'users',
         loadChildren: () =>
-            import('./features/users/users-module').then(m => m.UsersModule)
+            import('./features/users/user.routes').then(m => m.userRoutes)
     },
     {
         path: '',
