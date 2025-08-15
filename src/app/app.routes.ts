@@ -7,9 +7,14 @@ export const routes: Routes = [
             import('./features/auth/auth.routes').then(m => m.authRoutes)
     },
     {
-        path: 'users',
+        path: 'dashboard',
         loadChildren: () =>
-            import('./features/users/user.routes').then(m => m.userRoutes)
+            import('./features/shell/shell.routes').then(m => m.shellRoutes)
+    },
+    {
+        path: 'analytics', // queda aqui por ahora
+        loadChildren: () =>
+            import('./features/analytics/analytics.routes').then(m => m.analyticsRoutes)
     },
     {
         path: '',
