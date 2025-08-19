@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ITableColumn, ITableState } from '../../../../shared/interfaces/custom-table.interface';
 import { CustomTableComponent } from '../../../../shared/components/custom-table-component/custom-table-component';
+import { DatePipe } from '@angular/common';
+import { EBuildPipe, EDatePipeFormat } from '../../../../shared/enums/pipes.enum';
 
 @Component({
   selector: 'app-users-page',
@@ -20,20 +22,23 @@ export class UsersPage implements OnInit {
     loading: false,
   };
 
-  columns: ITableColumn[] = [
-    { field: 'name.first', header: 'First Name' },
-    { field: 'name.last', header: 'Last Name' },
-    { field: 'gender', header: 'Gender' },
-    { field: 'phone', header: 'Phone' },
-    { field: 'email', header: 'Email' },
-    { field: 'location.coordinates.latitude', header: 'Location' }
-  ];
 
   constructor(
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+  ) { }
+
+  columns: ITableColumn[] = [];
 
   ngOnInit(): void {
+    this.columns = [
+      { field: 'name.first', header: 'First Name' },
+      { field: 'name.last', header: 'Last Name', pipe: EBuildPipe.TitleCase },
+      { field: 'gender', header: 'Gender' },
+      { field: 'phone', header: 'Phone' },
+      { field: 'email', header: 'Email' },
+      { field: 'location.coordinates.latitude', header: 'Location' },
+      { field: 'dob.date', header: 'Date birthday', pipe: EBuildPipe.Date, pipeArgs: [EDatePipeFormat.ShortDate] }
+    ]
     this.loadUsers()
   }
 

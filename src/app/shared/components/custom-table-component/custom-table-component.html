@@ -1,10 +1,11 @@
-<p-table [value]="state.data" [paginator]="true" [rows]="state.perPage" [totalRecords]="state.totalRecords"
-    [lazy]="true" (onLazyLoad)="onPage($event)" [loading]="state.loading" [rowsPerPageOptions]="[5, 10, 20]"
-    [tableStyle]="{ 'min-width': '50rem' }">
+<p-table [value]="state.data" [paginator]="state.applyPaginator" [rows]="state.perPage"
+    [totalRecords]="state.totalRecords" [lazy]="true" (onLazyLoad)="onPage($event)" selectionMode="single"
+    [loading]="state.loading" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }">
 
     <!-- HEADER -->
     <ng-template pTemplate="header">
         <tr>
+            <th>#</th> <!-- Nueva columna fija para el conteo -->
             @for (col of columns; track $index) {
             <th>
                 {{ col.header }}
@@ -14,11 +15,14 @@
     </ng-template>
 
     <!-- BODY -->
-    <ng-template pTemplate="body" let-item>
+    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
         <tr>
+            <td>
+                {{ rowIndex + 1 }}
+            </td>
             @for (col of columns; track $index) {
             <td>
-                {{ getValue(item, col.field) }}
+                {{ applyPipe(getValue(item, col.field), col.pipe, col.pipeArgs) }}
             </td>
             }
         </tr>
