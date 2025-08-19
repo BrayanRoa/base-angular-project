@@ -1,7 +1,8 @@
-<p-table [value]="data" [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
-    (onPage)="onPage($event)">
+<p-table [value]="state.data" [paginator]="true" [rows]="state.perPage" [totalRecords]="state.totalRecords"
+    [lazy]="true" (onLazyLoad)="onPage($event)" [loading]="state.loading" [rowsPerPageOptions]="[5, 10, 20]"
+    [tableStyle]="{ 'min-width': '50rem' }">
 
-    <!-- Cabecera dinámica -->
+    <!-- HEADER -->
     <ng-template pTemplate="header">
         <tr>
             @for (col of columns; track $index) {
@@ -12,12 +13,12 @@
         </tr>
     </ng-template>
 
-    <!-- Celdas dinámicas -->
-    <ng-template pTemplate="body" let-row>
+    <!-- BODY -->
+    <ng-template pTemplate="body" let-item>
         <tr>
             @for (col of columns; track $index) {
             <td>
-                {{ row[col.field] }}
+                {{ getValue(item, col.field) }}
             </td>
             }
         </tr>

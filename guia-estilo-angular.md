@@ -1,6 +1,6 @@
 # 📘 Guía de Estilo Angular + TypeScript
 
-Esta guía define las convenciones y nomenclatura a seguir en los proyectos Angular para mantener consistencia y legibilidad.
+Esta guía define las convenciones y nomenclatura a seguir en el proyecto para mantener consistencia y legibilidad.
 
 ---
 
@@ -80,7 +80,7 @@ export const API_BASE_URL = "https://api.example.com";
 
 ## 2️⃣ Nomenclatura Angular
 
-### Features y Rutas
+### 📁 Features y 🛣️ Rutas
 
 - Cada feature vive en una carpeta dentro de features/.
 - Cada feature tiene un archivo \*.routes.ts que define sus rutas hijas (este archivo lo creamos manualmente porque la CLI no tiene un comando para generar este archivo).
@@ -91,7 +91,7 @@ export const API_BASE_URL = "https://api.example.com";
 ```
 features/
  ├─ auth/
- │   ├─ auth.routes.ts
+ │   ├─ auth.routes.ts // este sería el archivo que se crea manuealmente
  │   └─ pages/
  │       ├─ auth-login-page/
  │       │   ├─ auth-login-page.ts
@@ -123,11 +123,32 @@ export const authRoutes: Routes = [
 
 ---
 
-### Componentes
+### 🧩 Componentes
+
+#### 📄 Páginas principales
+
+- Usar el sufijo `Page`.
+- Para el nombre de páginas dentro de una feature, se usa la convención:  
+  `{feature}-{nombre}-page`
+
+**Ejemplo:**
+
+```
+auth-login-page.html
+auth-login-page.scss
+auth-login-page.ts
+```
+
+**Comando CLI (Abreviado):**
+
+```
+ng g c features/auth/pages/auth-login-page --standalone
+```
+
+#### 🔹 Componentes propios de una feature o compartidos
 
 - Sufijo `Component`.
-- Si es página principal: sufijo `Page`.
-- Si es componente compartido: sufijo `Component`.
+- Si es un componente compartido (usado en varias features), se debe colocar dentro de `shared/components/`.
 
 **Ejemplo:**
 
@@ -142,16 +163,13 @@ dashboard-page.ts
 ng g c shared/components/table-component --standalone
 ```
 
-```
-ng g c features/auth/pages/dashboard-page --standalone
-```
-
 ---
 
-### Servicios
+### ⚙️ Servicios
 
-- Sufijo `Service`.
-- Singular, enfocado a una entidad.
+- Usar el sufijo `Service`.
+- El nombre debe estar en **singular**, representando la entidad o dominio que maneja.
+- Ubicarlos dentro de la carpeta `services/` en cada feature, o en `shared/services/` si es compartido.
 
 **Ejemplo:**
 
@@ -168,10 +186,11 @@ ng g s features/dashboard/services/product-service
 
 ---
 
-### Interfaces
+### 📝 Interfaces
 
-- Carpeta `interfaces/`.
-- Nombre descriptivo + `.interface.ts`.
+- Ubicarlas dentro de la carpeta `interfaces/` de cada feature, o en `shared/interfaces/` si son reutilizables.
+- El nombre debe ser **descriptivo** y terminar con el sufijo `.interface.ts`.
+- Usar PascalCase para el nombre de la interfaz.
 
 **Ejemplo:**
 
@@ -187,15 +206,14 @@ product.interface.ts
 ```
 src/app/
   core/          // Servicios globales, interceptores, guards
-  shared/        // Componentes, pipes y directivas reutilizables
+  shared/        // Componentes, pipes, interfaces y directivas reutilizables
   features/      // Módulos de cada funcionalidad
     auth/
       pages/
       components/
       services/
       interfaces/
-      auth.module.ts
-      auth-routing.module.ts
+      auth.routes.ts
 ```
 
 ---

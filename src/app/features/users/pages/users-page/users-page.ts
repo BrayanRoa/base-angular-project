@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from '../../interfaces/user.interface';
 import { UserService } from '../../services/user.service';
-import { ICustomTable } from '../../../../shared/interfaces/custom-table.interface';
+import { ITableColumn, ITableState } from '../../../../shared/interfaces/custom-table.interface';
 import { CustomTableComponent } from '../../../../shared/components/custom-table-component/custom-table-component';
 
 @Component({
@@ -12,30 +11,47 @@ import { CustomTableComponent } from '../../../../shared/components/custom-table
 })
 export class UsersPage implements OnInit {
 
-  cols: ICustomTable[] = []
-  users: IUser[] = [];
-  loading: boolean = true;
+  state: ITableState = {
+    data: [],
+    applyPaginator: true,
+    page: 1,
+    perPage: 5,
+    totalRecords: 100,
+    loading: false,
+  };
 
-  constructor(private userService: UserService) { }
+  columns: ITableColumn[] = [
+    { field: 'name.first', header: 'First Name' },
+    { field: 'name.last', header: 'Last Name' },
+    { field: 'gender', header: 'Gender' },
+    { field: 'phone', header: 'Phone' },
+    { field: 'email', header: 'Email' },
+    { field: 'location.coordinates.latitude', header: 'Location' }
+  ];
+
+  constructor(
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.cols = [
-      { field: 'id', header: 'Id' },
-      { field: 'name', header: 'Nombre' },
-      { field: 'email', header: 'Email' },
-      { field: 'phone', header: 'Telefono' },
-    ]
+    this.loadUsers()
+  }
 
-    this.userService.getUsers().subscribe({
+  loadUsers() {
+    this.state.loading = true;
+    this.userService.getUsers(this.state.page, this.state.perPage).subscribe({
       next: (data) => {
-        this.users = data;
-        this.loading = false;
+        this.state.data = data.results;
+        this.state.totalRecords = 100; // ⚠️ aquí deberíamos usar el total real si la API lo soporta
+        this.state.loading = false;
       },
-      error: (err) => {
-        console.error('Error al obtener usuarios', err);
-        this.loading = false;
-      }
+      error: () => (this.state.loading = false)
     });
   }
 
+  onPageChange(event: { page: number; perPage: number }) {
+    this.state.page = event.page;
+    this.state.perPage = event.perPage;
+    this.loadUsers();
+  }
 }

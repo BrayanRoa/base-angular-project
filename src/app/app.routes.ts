@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { UsersPage } from './features/users/pages/users-page/users-page';
 
 export const routes: Routes = [
     {
@@ -15,6 +16,10 @@ export const routes: Routes = [
         path: 'analytics', // queda aqui por ahora
         loadChildren: () =>
             import('./features/analytics/analytics.routes').then(m => m.analyticsRoutes)
+    },
+    {
+        path: "users", // ruta para ver como funciona la tabla generica
+        component: UsersPage
     },
     {
         path: '',
